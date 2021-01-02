@@ -1,5 +1,5 @@
 # AM-tools
-This repository contains libraries to support the creation of Advanced Macros bot scripts. These libraries are currently optimized for [advanced macros mod](https://www.curseforge.com/minecraft/mc-mods/advanced-macros) v9.2.0 or Minecraft v1.14.4. 
+This repository contains LUA libraries to support the creation of Advanced Macros bot scripts. These libraries are currently optimized for [advanced macros mod](https://www.curseforge.com/minecraft/mc-mods/advanced-macros) v9.2.0 or Minecraft v1.14.4. 
 
 ## How to use
 
