@@ -20,140 +20,6 @@
         SCRIPT.sprintJumpingIceSpeed = 16.9
 
 --function declarations
-    function botTools.readAll(file)
-        --function initialization
-            --initialize function table
-                local FUNC = {}
-            --store arguments in locally scoped table for scope safety
-                FUNC.file = file
-
-        FUNC.f = assert(io.open("../"..FUNC.file, "rb"))
-        FUNC.content = FUNC.f:read("*all")
-        FUNC.f:close()
-        return FUNC.content
-    end
-
-    function botTools.sortTableByKeys(table)
-        --function initialization
-            --initialize function table
-                local FUNC = {}
-            --store arguments in locally scoped table for scope safety
-                FUNC.table = table
-
-        FUNC.sortedTable = {}
-        for k,v in compTools.spairs(FUNC.table) do
-            FUNC.sortedTable[#FUNC.sortedTable + 1] = k
-        end
-        return FUNC.sortedTable
-    end
-
-    --reverses the order of tables with numerical indexes
-    function botTools.reverse(arr)
-        --function initialization
-            --initialize function table
-                local FUNC = {}
-            --store arguments in locally scoped table for scope safety
-                FUNC.arr = arr
-
-        FUNC.i, FUNC.j = 1, #FUNC.arr
-
-        while FUNC.i < FUNC.j do
-            FUNC.arr[FUNC.i], FUNC.arr[FUNC.j] = FUNC.arr[FUNC.j], FUNC.arr[FUNC.i]
-
-            FUNC.i = FUNC.i + 1
-            FUNC.j = FUNC.j - 1
-        end
-    end
-
-    function botTools.distanceBetweenPoints(tX,tY,tZ, pX,pY,pZ)
-
-        --function initialization
-            --initialize function table
-                local FUNC = {}
-            --store arguments in locally scoped table for scope safety
-                FUNC.tX,FUNC.tY,FUNC.tZ = tX,tY,tZ
-                FUNC.pX,FUNC.pY,FUNC.pZ = pX,pY,pZ
-
-        return ((FUNC.tX - FUNC.pX)^2 + (FUNC.tY - FUNC.pY)^2 + (FUNC.tZ - FUNC.pZ)^2)^(1/2)
-    end
-
-    function botTools.playerDistanceFrom(tX,tY,tZ)
-        --function initialization
-            --initialize function table
-                local FUNC = {}
-            --store arguments in locally scoped table for scope safety
-                FUNC.tX = tX
-                FUNC.tY = tY
-                FUNC.tZ = tZ
-
-        FUNC.pX, FUNC.pY, FUNC.pZ = getPlayerPos()
-        -- target center of block
-            FUNC.tX = tX + 0.5
-            FUNC.tY = tY + 0.5
-            FUNC.tZ = tZ + 0.5
-        return botTools.distanceBetweenPoints(FUNC.tX,FUNC.tY,FUNC.tZ, FUNC.pX,FUNC.pY,FUNC.pZ)
-    end
-
-    function botTools.horizontalSquareDistanceBetween(x1,z1, x2,z2)
-        --function initialization
-            --initialize function table
-                local FUNC = {}
-            --store arguments in locally scoped table for scope safety
-                FUNC.x1 = x1
-                FUNC.z1 = z1
-                FUNC.x2 = x2
-                FUNC.z2 = z2
-
-        --calculate horizontal differences
-            FUNC.xDist = math.abs(FUNC.x1 - FUNC.x2)
-            FUNC.zDist = math.abs(FUNC.z1 - FUNC.z2)
-
-        --find greatest horizontal distance
-            if FUNC.xDist >= FUNC.zDist then
-                return FUNC.xDist
-            else
-                return FUNC.zDist
-            end
-    end
-
-    function botTools.verticalSquareDistanceBetween(y1, y2)
-        --function initialization
-            --initialize function table
-                local FUNC = {}
-            --store arguments in locally scoped table for scope safety
-                FUNC.y1 = y1
-                FUNC.y2 = y2
-
-        return math.abs(FUNC.y1 - FUNC.y2)
-    end
-
-    function botTools.playerhorizontalSquareDistanceBetween(x,z)
-        --function initialization
-            --initialize function table
-                local FUNC = {}
-            --store arguments in locally scoped table for scope safety
-                FUNC.x = x
-                FUNC.z = z
-
-        --declare local variables
-            --get player position
-                FUNC.pX, FUNC.pY, FUNC.pZ = getPlayerPos()
-        return botTools.horizontalSquareDistanceBetween(FUNC.x,FUNC.z, FUNC.pX,FUNC.pZ)
-    end
-
-    function botTools.playerVerticalSquareDistanceBetween(y)
-        --function initialization
-            --initialize function table
-                local FUNC = {}
-            --store arguments in locally scoped table for scope safety
-                FUNC.y = y
-
-        --declare local variables
-            --get player position
-                FUNC.pX, FUNC.pY, FUNC.pZ = getPlayerPos()
-        return botTools.verticalSquareDistanceBetween(FUNC.pY, FUNC.y)
-    end
-
     function botTools.lookAtCenter(x,y,z)
         --function initialization
             --initialize function table
@@ -360,26 +226,6 @@
             return false
     end
 
-    function botTools.split(inputstr, sep)
-        --function initialization
-            --initialize function table
-                local FUNC = {}
-            --store arguments in locally scoped table for scope safety
-                FUNC.inputstr = inputstr
-                FUNC.sep = sep
-
-        FUNC.sep = FUNC.sep or '%s'
-        FUNC.t = {}
-        for field, s in string.gmatch(FUNC.inputstr, "([^" .. FUNC.sep .. "]*)(" .. FUNC.sep .. "?)") do
-            --put locl variables in safe scope
-                FUNC.field = field
-                FUNC.s = s
-
-            table.insert(FUNC.t, FUNC.field)
-            if FUNC.s == "" then return FUNC.t end
-        end
-    end
-
     function botTools.freezeAllMotorFunctions()
         --function initialization
             --initialize function table
@@ -423,7 +269,7 @@
             --jump if slower than expected
                     --get position for speed measurment
                     FUNC.curPX, FUNC.curPY, FUNC.curPZ = getPlayerPos()
-                    if (botTools.distanceBetweenPoints(FUNC.curPX,FUNC.curPY,FUNC.curPZ, GLBL.JIST_lastPX,GLBL.JIST_lastPY,GLBL.JIST_lastPZ) / os.difftime(os.time(), GLBL.JIST_lastTimePositionTaken)) < (0.7 * FUNC.speed) then
+                    if (compTools.distanceBetweenPoints(FUNC.curPX,FUNC.curPY,FUNC.curPZ, GLBL.JIST_lastPX,GLBL.JIST_lastPY,GLBL.JIST_lastPZ) / os.difftime(os.time(), GLBL.JIST_lastTimePositionTaken)) < (0.7 * FUNC.speed) then
                         GLBL.JIST_tooSlowCount = GLBL.JIST_tooSlowCount + 1
                         if GLBL.JIST_tooSlowCount >= 2 then
                             -- sneak for a bit
@@ -459,7 +305,7 @@
 
             -- sneak towards point
                 botTools.initializeJumpIfSlowerThan()
-                while(botTools.playerhorizontalSquareDistanceBetween(FUNC.x + 0.5, FUNC.z + 0.5) > FUNC.arrivedDistance or botTools.playerVerticalSquareDistanceBetween(FUNC.y) > 10)do
+                while(compTools.playerhorizontalSquareDistanceBetween(FUNC.x + 0.5, FUNC.z + 0.5) > FUNC.arrivedDistance or compTools.playerVerticalSquareDistanceBetween(FUNC.y) > 10)do
                     botTools.eatIfHungery()
                     botTools.lookTowards(FUNC.x,FUNC.z)
                     sprint(false)
@@ -487,13 +333,13 @@
             --declare local function variables
                 FUNC.arrivedDistance = 0.5
                 FUNC.slowDownDistance = 2
-            while(botTools.playerhorizontalSquareDistanceBetween(FUNC.x + 0.5, FUNC.z + 0.5) > FUNC.arrivedDistance or botTools.playerVerticalSquareDistanceBetween(FUNC.y) > 10)do
+            while(compTools.playerhorizontalSquareDistanceBetween(FUNC.x + 0.5, FUNC.z + 0.5) > FUNC.arrivedDistance or compTools.playerVerticalSquareDistanceBetween(FUNC.y) > 10)do
                 botTools.eatIfHungery()
                 -- walk twords point
-                    if botTools.playerhorizontalSquareDistanceBetween(FUNC.x + 0.5, FUNC.z + 0.5) < FUNC.slowDownDistance then
+                    if compTools.playerhorizontalSquareDistanceBetween(FUNC.x + 0.5, FUNC.z + 0.5) < FUNC.slowDownDistance then
                         -- walk
                             botTools.initializeJumpIfSlowerThan()
-                            while(botTools.playerhorizontalSquareDistanceBetween(FUNC.x + 0.5, FUNC.z + 0.5) > FUNC.arrivedDistance or botTools.playerVerticalSquareDistanceBetween(FUNC.y) > 10) do
+                            while(compTools.playerhorizontalSquareDistanceBetween(FUNC.x + 0.5, FUNC.z + 0.5) > FUNC.arrivedDistance or compTools.playerVerticalSquareDistanceBetween(FUNC.y) > 10) do
                                 botTools.eatIfHungery()
                                 botTools.lookTowards(FUNC.x,FUNC.z)
                                 forward(-1)
@@ -504,7 +350,7 @@
                     else
                         -- run
                             botTools.initializeJumpIfSlowerThan()
-                            while(botTools.playerhorizontalSquareDistanceBetween(FUNC.x + 0.5, FUNC.z + 0.5) > FUNC.slowDownDistance) do
+                            while(compTools.playerhorizontalSquareDistanceBetween(FUNC.x + 0.5, FUNC.z + 0.5) > FUNC.slowDownDistance) do
                                 botTools.eatIfHungery()
                                 botTools.lookTowards(FUNC.x,FUNC.z)
                                 forward(-1)
@@ -530,12 +376,12 @@
 
             FUNC.arrivedDistance = 0.5
             FUNC.slowDownDistance = 6
-            while(botTools.playerhorizontalSquareDistanceBetween(FUNC.x + 0.5, FUNC.z + 0.5) > FUNC.arrivedDistance or botTools.playerVerticalSquareDistanceBetween(FUNC.y) > 10)do
+            while(compTools.playerhorizontalSquareDistanceBetween(FUNC.x + 0.5, FUNC.z + 0.5) > FUNC.arrivedDistance or compTools.playerVerticalSquareDistanceBetween(FUNC.y) > 10)do
                 botTools.eatIfHungery()
                 -- walk twords point
-                    if botTools.playerhorizontalSquareDistanceBetween(FUNC.x + 0.5, FUNC.z + 0.5) < FUNC.slowDownDistance then
+                    if compTools.playerhorizontalSquareDistanceBetween(FUNC.x + 0.5, FUNC.z + 0.5) < FUNC.slowDownDistance then
                         -- walk
-                            while(botTools.playerhorizontalSquareDistanceBetween(FUNC.x + 0.5, FUNC.z + 0.5) > FUNC.arrivedDistance or botTools.playerVerticalSquareDistanceBetween(FUNC.y) > 10) do
+                            while(compTools.playerhorizontalSquareDistanceBetween(FUNC.x + 0.5, FUNC.z + 0.5) > FUNC.arrivedDistance or compTools.playerVerticalSquareDistanceBetween(FUNC.y) > 10) do
                                 botTools.eatIfHungery()
                                 botTools.lookTowards(FUNC.x,FUNC.z)
                                 forward(-1)
@@ -545,7 +391,7 @@
                             end
                     else
                         -- run
-                            while(botTools.playerhorizontalSquareDistanceBetween(FUNC.x + 0.5, FUNC.z + 0.5) > FUNC.slowDownDistance or botTools.playerVerticalSquareDistanceBetween(FUNC.y) > 10) do
+                            while(compTools.playerhorizontalSquareDistanceBetween(FUNC.x + 0.5, FUNC.z + 0.5) > FUNC.slowDownDistance or compTools.playerVerticalSquareDistanceBetween(FUNC.y) > 10) do
                                 botTools.eatIfHungery()
                                 botTools.lookTowards(FUNC.x,FUNC.z)
                                 forward(-1)
