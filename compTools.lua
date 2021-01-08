@@ -1,6 +1,6 @@
 --initialization
     -- import dependencies
-        local compTools = { _version = "0.0.0" }
+        local compTools = { _version = "1.0.0" }
     
     --initialize GLBL table if needed
         if GLBL == nil then

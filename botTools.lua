@@ -1,6 +1,6 @@
 --initialization
     -- import dependencies
-        local botTools = { _version = "0.0.0" }
+        local botTools = { _version = "1.0.0" }
         
     --initialize GLBL table if needed
         if GLBL == nil then
