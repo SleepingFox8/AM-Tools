@@ -12,6 +12,12 @@ botTools = require ("AM-Tools/botTools")
 compTools = require ("AM-Tools/compTools")
 ```
 
+Library functrions can be called like so:
+
+```lua
+botTools.sprintToPoint(0,0,0)
+```
+
 If this repo updates, your repo's submodule will not update automatically. To update your repository's submodule, ``cd`` into your submodule's directory and run ``git pull origin master``.
 
 ## Libraries
