@@ -56,7 +56,7 @@
         end
 
         function compTools.stopAllInstancesOfThisScript()
-            stopOtherInstancesOfThisScript()
+            compTools.stopOtherInstancesOfThisScript()
             -- stop this script
                 thread.current().stop()
         end
