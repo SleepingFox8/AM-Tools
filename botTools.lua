@@ -1,6 +1,8 @@
 --initialization
     -- import dependencies
-        local botTools = { _version = "1.0.0" }
+    local compTools = require ("compTools")
+    -- create libraries to fill
+        local botTools = { _version = "1.0.1" }
         
     --initialize GLBL table if needed
         if GLBL == nil then
@@ -301,7 +303,7 @@
                     FUNC.z = z
 
             --declare local function variables
-                FUNC.arrivedDistance = 0.5
+                FUNC.arrivedDistance = 0.16
 
             -- sneak towards point
                 botTools.initializeJumpIfSlowerThan()
