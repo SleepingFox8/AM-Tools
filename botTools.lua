@@ -101,42 +101,44 @@
         return false
     end
 
-    function botTools.itemInInventory(sitem)
+    function botTools.itemInInventory(sitem, minDura)
         --function initialization
             --initialize function table
                 local FUNC = {}
             --store arguments in locally scoped table for scope safety
                 FUNC.sitem = sitem
+                FUNC.minDura = minDura or -1
 
         -- set up inventory for reading
             FUNC.inv = openInventory()
             FUNC.map = FUNC.inv.mapping.inventory
 
-        FUNC.itemCount = 0
+        -- count num of FUNC.sitem in inventory
+            FUNC.itemCount = 0
 
-        --count FUNC.sitem in hotbar
-            for i,j in pairs(FUNC.map.hotbar) do
-                -- store args in known scope safe table
-                    FUNC.i, FUNC.j = i,j
+            --count FUNC.sitem in hotbar
+                for i,j in pairs(FUNC.map.hotbar) do
+                    -- store args in known scope safe table
+                        FUNC.i, FUNC.j = i,j
 
-                FUNC.item = FUNC.inv.getSlot(FUNC.j)
-                -- If hotbar Item is an axe with durability
-                if FUNC.item and FUNC.item.id==FUNC.sitem then
-                    FUNC.itemCount = FUNC.itemCount + 1
+                    FUNC.item = FUNC.inv.getSlot(FUNC.j)
+                    -- If hotbar Item is an axe with durability
+                    if FUNC.item and (FUNC.item.id==FUNC.sitem and((FUNC.item.maxDmg - FUNC.item.dmg) > FUNC.minDura)) then
+                        FUNC.itemCount = FUNC.itemCount + 1
+                    end
                 end
-            end
 
-        -- count FUNC.sitem in inventory  
-            for i,j in pairs(FUNC.map.main) do
-                -- store args in known scope safe table
-                    FUNC.i, FUNC.j = i,j
+            -- count FUNC.sitem in inventory  
+                for i,j in pairs(FUNC.map.main) do
+                    -- store args in known scope safe table
+                        FUNC.i, FUNC.j = i,j
 
-                FUNC.item = FUNC.inv.getSlot(FUNC.j)
-                -- If hotbar Item is an axe with durability
-                if FUNC.item and FUNC.item.id==FUNC.sitem then
-                    FUNC.itemCount = FUNC.itemCount + 1
+                    FUNC.item = FUNC.inv.getSlot(FUNC.j)
+                    -- If hotbar Item is an axe with durability
+                    if FUNC.item and (FUNC.item.id==FUNC.sitem and((FUNC.item.maxDmg - FUNC.item.dmg) > FUNC.minDura)) then
+                        FUNC.itemCount = FUNC.itemCount + 1
+                    end
                 end
-            end
 
         -- return result
             if FUNC.itemCount ~= 0 then
