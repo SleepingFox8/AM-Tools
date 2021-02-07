@@ -1,6 +1,6 @@
 --initialization
     -- import dependencies
-    local compTools = require ("compTools")
+        local compTools = require ("compTools")
     -- create libraries to fill
         local botTools = { _version = "1.0.1" }
         
@@ -293,7 +293,7 @@
 
     --traveling to points
 
-        function botTools.sneakToPoint(x,y,z)
+        function botTools.sneakToPoint(x,y,z,shouldJump)
             --function initialization
                 --initialize function table
                     local FUNC = {}
@@ -301,6 +301,11 @@
                     FUNC.x = x
                     FUNC.y = y
                     FUNC.z = z
+                    -- asign shouldJump
+                        FUNC.shouldJump = shouldJump
+                        if FUNC.shouldJump == nil then
+                            FUNC.shouldJump = true
+                        end
 
             --declare local function variables
                 FUNC.arrivedDistance = 0.16
@@ -314,7 +319,9 @@
                     sneak(-1)
                     forward(-1)
                     sleep(50)
-                    botTools.jumpIfSlowerThan(SCRIPT.sneakingSpeed)
+                    if FUNC.shouldJump then
+                        botTools.jumpIfSlowerThan(SCRIPT.sneakingSpeed)
+                    end
                 end
 
             -- stop traveling
