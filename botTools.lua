@@ -46,6 +46,8 @@
         FUNC.pX, FUNC.pY, FUNC.pZ = getPlayerPos()
 
         botTools.lookAtCenter(FUNC.x,FUNC.pY+1,FUNC.z)
+        FUNC.player = getPlayer()
+        look(FUNC.player.yaw, 0)
     end
 
     function botTools.summonItem(sitem, prefSlot, minDura)
