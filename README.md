@@ -3,7 +3,7 @@ This repository contains LUA libraries to support the creation of Advanced Macro
 
 ## DEPRECATION NOTICE
 
-To allow for the seperate semantic versioning of different scripts. Further development of these libraries has moved to their own repositories. You can find a list of them here https://github.com/SleepingFox8/AM-Libraries
+To allow each library to have their own semantic version, further development of these libraries has moved to their own repositories. You can find a list of them here https://github.com/SleepingFox8/AM-Libraries
 
 ## Libraries
 
