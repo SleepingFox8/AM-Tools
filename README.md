@@ -1,7 +1,7 @@
 # AM-tools
 This repository contains LUA libraries to support the creation of Advanced Macros bot scripts. These libraries are currently optimized for [advanced macros mod](https://www.curseforge.com/minecraft/mc-mods/advanced-macros) v9.2.0 or Minecraft v1.14.4. 
 
-## NOTICE
+## DEPRECATION NOTICE
 
 To allow for the seperate semantic versioning of different scripts. Further development of these libraries has moved to their own repositories. You can find a list of them here https://github.com/SleepingFox8/AM-Libraries
 
